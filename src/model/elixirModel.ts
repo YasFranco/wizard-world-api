@@ -8,7 +8,7 @@ const getAllData = async () => {
     try {
         const response = await fetch(api);
 
-        if (response.status === 404) {
+        if (!response.ok) {
             throw new Error("requested API was not found");
         }
 
@@ -25,7 +25,7 @@ const getAllElixirNames = async () => {
         const data = await getAllData();
 
         if (data instanceof Error) {
-            throw data
+            throw new Error("requested API was not found")
         }
 
         const elixirNames = data.map((elixir: any) => { return { name: elixir.name } })
@@ -37,9 +37,13 @@ const getAllElixirNames = async () => {
 
 const getEffectElixirById = async (id: string) => {
     try {
-        const data = await getAllData()
+        const data = await getAllData();
 
-        const foundElixir = data.find((elixir: any) => elixir.id === id)
+        if(data instanceof Error){
+            throw new Error("requested API was not found");
+        };
+
+        const foundElixir = data.find((elixir: any) => elixir.id === id);
 
         if (!foundElixir) {
             throw new Error ("ID not found");
@@ -47,7 +51,7 @@ const getEffectElixirById = async (id: string) => {
             return `The effect of the elixir is: ${foundElixir.effect}`;
         }
     } catch (error) {
-        return error 
+        return error;
     }
 
 }
@@ -55,15 +59,20 @@ const getEffectElixirById = async (id: string) => {
 const getElixirsByDifficulty = async (difficulty: string) => {
     try {
         const data = await getAllData();
-        // const difficultyLowerCase = elixir.difficulty.toLowerCase()
+
+        if(data instanceof Error){
+            throw new Error("requested API was not found");
+        }
+        
         const difficultyLowerCase = difficulty.toLowerCase();
 
         const searchbydifficulty = data.filter((elixir:any) => elixir.difficulty.toLowerCase() === difficultyLowerCase);
         
         if(searchbydifficulty.length === 0){
-            throw new Error ("dificultad no encontrada")
+            throw new Error ("the required difficulty does not exist")
         }else{
             return searchbydifficulty
+            // aca va a retornar los objetos que tengan la dificultad solicitada 
         }
 
 
@@ -76,11 +85,15 @@ const getElixirsIngredientsById = async (id: string) => {
     try{
         const data = await getAllData();
 
+        if(data instanceof Error){
+            throw new Error("Requested API was not found")
+        }
+
         const elixirIngredients = data.find((elixir:any) => elixir.id === id);
         //aca va a devolver un array del elixir 
 
         if(!elixirIngredients){
-            throw new Error ("elixir no encontrado, ID incorrecto");
+            throw new Error ("Ingredients not found, incorrect ID");
         } 
         // aca controlo el error de no encontrar el elixir con ese id 
 
@@ -89,7 +102,7 @@ const getElixirsIngredientsById = async (id: string) => {
         // aca guardo en una variable el array de ingredientes
 
         if(arrayIngredients.length === 0){
-            throw new Error("Este elixir no tiene ingredientes");
+            throw new Error("The requested elixir has no ingredients");
             // aca controlo el error en el caso de que el array este vacio 
         } else{
             const newArrayIngredients = arrayIngredients.map((ingredient:any) => ingredient.name)
@@ -105,10 +118,10 @@ const main = async () => {
     const allData = await getAllData();
     const elixirNames = await getAllElixirNames();
     const elixirEffect = await getEffectElixirById("0106fb32-b00d-4d70-9841-4b7c2d2cca71")
-    const elixirByDifficulty = await getElixirsByDifficulty("unkown")
+    const elixirByDifficulty = await getElixirsByDifficulty("unknown")
     const elixirIngredients = await getElixirsIngredientsById("3f8fd398-c7fa-40a9-a8c7-212a8427cb6a")
 
-    console.log(elixirIngredients)
+    console.log(elixirByDifficulty)
 }
 
 main();
