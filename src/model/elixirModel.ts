@@ -19,13 +19,29 @@ const getAllData = async () => {
     }
 }
 
+const getAllElixirNames = async () => {
+    
+    try {
+        const data = await getAllData();
 
+        if(data instanceof Error){
+            throw data
+        }
+
+        const elixirNames = data.map((elixir: any) => { return { name: elixir.name } })
+        return elixirNames
+    } catch (error) {
+        return error
+    }
+}
 
 
 
 const main = async () => {
     const allData = await getAllData();
-    console.log(allData)
+    const elixirNames = await getAllElixirNames();
+
+    console.log(elixirNames)
 }
 
 main();
