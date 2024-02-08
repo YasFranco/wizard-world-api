@@ -20,11 +20,11 @@ const getAllData = async () => {
 }
 
 const getAllElixirNames = async () => {
-    
+
     try {
         const data = await getAllData();
 
-        if(data instanceof Error){
+        if (data instanceof Error) {
             throw data
         }
 
@@ -35,13 +35,31 @@ const getAllElixirNames = async () => {
     }
 }
 
+const getEffectElixirById = async (id: string) => {
+    try {
+        const data = await getAllData()
+
+        const foundElixir = data.find((elixir: any) => elixir.id === id)
+
+        if (!foundElixir) {
+            throw new Error ("ID not found");
+        }else{
+            return `The effect of the elixir is: ${foundElixir.effect}`;
+        }
+    } catch (error) {
+        return error 
+    }
+
+}
+
 
 
 const main = async () => {
     const allData = await getAllData();
     const elixirNames = await getAllElixirNames();
+    const elixirEffect = await getEffectElixirById("0106fb32-b00d-4d70-9841-4b7c2d2cca71")
 
-    console.log(elixirNames)
+    console.log(elixirEffect)
 }
 
 main();
