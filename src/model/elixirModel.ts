@@ -1,10 +1,11 @@
+import { Elixir } from "../interfaces/interface";
 import dotenv from "dotenv"
 dotenv.config();
 
 const apiUrl = process.env.URL_API!;
 const api = new URL(apiUrl);
 
-const getAllData = async () => {
+const getAllData = async (): Promise<Elixir[] | Error> => {
     try {
         const response = await fetch(api);
 
@@ -14,7 +15,7 @@ const getAllData = async () => {
 
         const data = await response.json();
         return data
-    } catch (error) {
+    } catch (error: any) {
         return error
     }
 }
@@ -28,9 +29,9 @@ const getAllElixirNames = async () => {
             throw new Error("requested API was not found")
         }
 
-        const elixirNames = data.map((elixir: any) => { return { name: elixir.name } })
+        const elixirNames = data.map((elixir) => { return { name: elixir.name } })
         return elixirNames
-    } catch (error) {
+    } catch (error: any) {
         return error
     }
 }
