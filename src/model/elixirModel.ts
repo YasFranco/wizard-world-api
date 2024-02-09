@@ -115,14 +115,4 @@ const getElixirsIngredientsById = async (id: string) => {
     }
 }
 
-const main = async () => {
-    const allData = await getAllData();
-    const elixirNames = await getAllElixirNames();
-    const elixirEffect = await getEffectElixirById("0106fb32-b00d-4d70-9841-4b7c2d2cca71")
-    const elixirByDifficulty = await getElixirsByDifficulty("unknown")
-    const elixirIngredients = await getElixirsIngredientsById("3f8fd398-c7fa-40a9-a8c7-212a8427cb6a")
-
-    console.log(elixirByDifficulty)
-}
-
-main();
+export { getAllData, getAllElixirNames, getEffectElixirById, getElixirsByDifficulty, getElixirsIngredientsById }
