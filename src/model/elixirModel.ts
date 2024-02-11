@@ -20,7 +20,7 @@ const getAllData = async (): Promise<Elixir[] | Error> => {
     }
 }
 
-const getAllElixirNames = async () => {
+const getAllElixirNames = async ():Promise<string[] | Error > => {
 
     try {
         const data = await getAllData();
@@ -29,14 +29,14 @@ const getAllElixirNames = async () => {
             throw new Error("requested API was not found")
         }
 
-        const elixirNames = data.map((elixir) => { return { name: elixir.name } })
+        const elixirNames = data.map((elixir) => elixir.name )
         return elixirNames
     } catch (error: any) {
         return error
     }
 }
 
-const getEffectElixirById = async (id: string) => {
+const getEffectElixirById = async (id: string):Promise<string | Error> => {
     try {
         const data = await getAllData();
 
@@ -44,20 +44,20 @@ const getEffectElixirById = async (id: string) => {
             throw new Error("requested API was not found");
         };
 
-        const foundElixir = data.find((elixir: any) => elixir.id === id);
+        const foundElixir = data.find((elixir) => elixir.id === id);
 
         if (!foundElixir) {
             throw new Error ("ID not found");
         }else{
             return `The effect of the elixir is: ${foundElixir.effect}`;
         }
-    } catch (error) {
+    } catch (error: any) {
         return error;
     }
 
 }
 
-const getElixirsByDifficulty = async (difficulty: string) => {
+const getElixirsByDifficulty = async (difficulty: string):Promise<Elixir[] | Error> => {
     try {
         const data = await getAllData();
 
@@ -67,7 +67,7 @@ const getElixirsByDifficulty = async (difficulty: string) => {
         
         const difficultyLowerCase = difficulty.toLowerCase();
 
-        const searchbydifficulty = data.filter((elixir:any) => elixir.difficulty.toLowerCase() === difficultyLowerCase);
+        const searchbydifficulty = data.filter((elixir) => elixir.difficulty.toLowerCase() === difficultyLowerCase);
         
         if(searchbydifficulty.length === 0){
             throw new Error ("the required difficulty does not exist")
@@ -77,12 +77,12 @@ const getElixirsByDifficulty = async (difficulty: string) => {
         }
 
 
-    } catch (error) {
+    } catch (error:any) {
         return(error)
     }
 }
 
-const getElixirsIngredientsById = async (id: string) => {
+const getElixirsIngredientsById = async (id: string):Promise< string[] | Error >=> {
     try{
         const data = await getAllData();
 
@@ -110,7 +110,7 @@ const getElixirsIngredientsById = async (id: string) => {
             return newArrayIngredients;
         }
 
-    }catch(error){
+    }catch(error:any){
         return error
     }
 }

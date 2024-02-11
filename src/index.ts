@@ -2,12 +2,11 @@ import { getAllData, getAllElixirNames, getEffectElixirById, getElixirsByDifficu
 
 
 
-const main = async () => {
+const main = async ():Promise<any> => {
     const request = process.argv[2].toLowerCase();
     const data = process.argv[3];
-    // console.log(request)
+    
     try {
-
         switch (request) {
             case "data":
                 const allData = await getAllData();
@@ -29,16 +28,12 @@ const main = async () => {
                 const elixirIngredients = await getElixirsIngredientsById(data) 
                 console.log(elixirIngredients);
                 break      
-            default: console.log("parametros incorrectos")
+            default: console.log("incorrect parameters")
         }
-
 
     } catch (error: any) {
         return error
     }
-
-    
-    
 }
 
 main();

@@ -22,4 +22,5 @@ interface Elixir {
     manufacturer: string | null; 
 }
 
-export { Elixir, Inventor, Ingredient }
+
+export { Elixir }
